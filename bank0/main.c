@@ -21,16 +21,18 @@ int main(int argc, char *argv[])
 	// Initialize current bank to 0
 	currentbank = 0;
 
-	// set the interrupt routine, disable unneeded processing for extra performance
+	// set the interrupt routine
 	VDP_INT_CTRL = VDP_INT_CTRL_DISABLE_ALL;
 	VDP_INT_HOOK = stplaysfx;
 
-	// Load title music and sound effect into RAM
+	// Mute all playing stuff
 	allstopsfx();
+	MUTE_SOUND();
+
+	// Load title music and sound effect into RAM
 	rom_to_ram(RES_START(music_theme_1), RES_END(music_theme_1), (unsigned char*)levelsounds);
 
 	// Play song
-	MUTE_SOUND();
 	stinitsfx(levelsounds, 0);
 
 	// Print how many 'songs' we have in the loaded file?
@@ -49,8 +51,6 @@ int main(int argc, char *argv[])
 		}
 
 		// Pressed fire, make noise!
-		//allstopsfx();
-		//MUTE_SOUND();
 		sfxinitsfx(levelsounds, 1, 0);
 	}
 
